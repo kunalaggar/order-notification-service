@@ -15,7 +15,11 @@ public class OrderEventPublisher {
     private static final String TOPIC = "order-created";
 
     public void publishOrderCreated(OrderCreatedEvent event) {
+        log.info("Publishing OrderCreatedEvent with eventId: {}", event.getEventId());
+
         kafkaTemplate.send(TOPIC, event);
+
+        log.info("OrderCreatedEvent published to topic: {}", TOPIC);
     }
 }
 

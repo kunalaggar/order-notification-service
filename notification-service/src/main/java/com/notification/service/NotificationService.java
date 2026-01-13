@@ -13,7 +13,5 @@ public interface NotificationService {
     Notification getNotificationById(Long id);
 
     List<Notification> getNotificationsByOrderId(String orderId);
-
-    List<Notification> getNotificationsWithFilter(String orderId);
 }
 

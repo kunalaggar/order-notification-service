@@ -1,5 +1,6 @@
 package com.notification.controller;
 
+import com.notification.entity.CommonResponse;
 import com.notification.entity.Notification;
 import com.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/notifications")
@@ -17,26 +17,57 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
+    // Get all notifications
     @GetMapping
-    public ResponseEntity<List<Notification>> getAllNotifications() {
-        return ResponseEntity.ok(notificationService.getAllNotifications());
+    public ResponseEntity<CommonResponse<List<Notification>>> getAllNotifications() {
+        List<Notification> notifications = notificationService.getAllNotifications();
+        CommonResponse<List<Notification>> response = new CommonResponse<>(
+                true,
+                HttpStatus.OK.value(),
+                "All notifications fetched successfully",
+                notifications,
+                null
+        );
+        return ResponseEntity.ok(response);
     }
 
+    // Get notification by ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> getNotificationById(@PathVariable Long id) {
+    public ResponseEntity<CommonResponse<Notification>> getNotificationById(@PathVariable Long id) {
         try {
             Notification notification = notificationService.getNotificationById(id);
-            return ResponseEntity.ok(notification);
+            CommonResponse<Notification> response = new CommonResponse<>(
+                    true,
+                    HttpStatus.OK.value(),
+                    "Notification fetched successfully",
+                    notification,
+                    null
+            );
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", e.getMessage()));
+            CommonResponse<Notification> response = new CommonResponse<>(
+                    false,
+                    HttpStatus.NOT_FOUND.value(),
+                    "Notification not found",
+                    null,
+                    e.getMessage()
+            );
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
+    // Get notifications by orderId
     @GetMapping("/search")
-    public ResponseEntity<List<Notification>> getNotificationsByOrderId(
+    public ResponseEntity<CommonResponse<List<Notification>>> getNotificationsByOrderId(
             @RequestParam(required = false) String orderId) {
-        List<Notification> notifications = notificationService.getNotificationsWithFilter(orderId);
-        return ResponseEntity.ok(notifications);
+        List<Notification> notifications = notificationService.getNotificationsByOrderId(orderId);
+        CommonResponse<List<Notification>> response = new CommonResponse<>(
+                true,
+                HttpStatus.OK.value(),
+                "Notifications fetched successfully",
+                notifications,
+                null
+        );
+        return ResponseEntity.ok(response);
     }
 }

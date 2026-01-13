@@ -20,7 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     public void processOrderCreatedEvent(OrderCreatedEvent event) {
-        // Check for duplicate event (idempotency)
+        // Check for duplicate event
         if (notificationRepository.findByEventId(event.getEventId()).isPresent()) {
             log.info("Event {} already processed, skipping", event.getEventId());
             return;
@@ -86,11 +86,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotificationsByOrderId(String orderId) {
-        return notificationRepository.findByOrderId(orderId);
-    }
-
-    @Override
-    public List<Notification> getNotificationsWithFilter(String orderId) {
         return notificationRepository.findByOrderIdFilter(orderId);
     }
 }
