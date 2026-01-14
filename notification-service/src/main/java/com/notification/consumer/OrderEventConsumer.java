@@ -31,7 +31,6 @@ public class OrderEventConsumer {
 
         try {
             notificationService.processOrderCreatedEvent(event);
-            // Manually acknowledge the message
             acknowledgment.acknowledge();
             log.info("Successfully processed event: {}", event.getEventId());
         } catch (Exception e) {

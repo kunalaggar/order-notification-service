@@ -86,6 +86,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotificationsByOrderId(String orderId) {
-        return notificationRepository.findByOrderIdFilter(orderId);
+        return notificationRepository.findByOrderId(orderId);
     }
 }
