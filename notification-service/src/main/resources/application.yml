@@ -30,7 +30,7 @@ spring:
       properties:
         spring.json.trusted.packages: com.notification.event
         spring.json.type.mapping: orderCreated:com.notification.event.OrderCreatedEvent
-        spring.json.use.type.headers: false
+        spring.json.use.type.headers: true
     listener:
       ack-mode: manual_immediate
 

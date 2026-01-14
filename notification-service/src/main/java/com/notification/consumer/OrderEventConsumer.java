@@ -24,7 +24,7 @@ public class OrderEventConsumer {
     )
     public void handleOrderCreatedEvent(
             OrderCreatedEvent event,
-            @Header(KafkaHeaders.RECEIVED_KEY) String key,
+            @Header(value = KafkaHeaders.RECEIVED_KEY, required = false) String key,
             Acknowledgment acknowledgment) {
 
         log.info("Received OrderCreatedEvent with key: {}, eventId: {}", key, event.getEventId());
