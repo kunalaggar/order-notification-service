@@ -22,7 +22,7 @@ git clone <repository-url>
 cd challenge-event-driven
 
 # Build and run all services
-docker-compose up --build
+docker-compose up --build   or docker-compose up --build -d
 
 # Services will be available at:
 # - Order Service: http://localhost:8080
